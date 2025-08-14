@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator | CodeAlpha</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Color Variables */
+    :root {
+      --bg-1: #E3FDFD;
+      --bg-2: #CBF1F5;
+      --accent-1: #A6E3E9;
+      --accent-2: #71C9CE;
+      --text-color: #333;
+      --result-color: #71C9CE;
+      --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      --card-radius: 15px;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Card styling */
+    .card {
+      box-shadow: var(--card-shadow);
+      border-radius: var(--card-radius);
+      border: none;
+      background-color: #fff;
+      padding: 20px;
+      transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Card text color */
+    .card .card-body {
+      color: var(--text-color);
+    }
+
+    /* Button styling */
+    .btn-primary {
+      background-color: var(--accent-1);
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: var(--accent-2);
+    }
+
+    /* Result styling */
+    .result {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--result-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <div class="card-body text-center">
+            <h3 class="card-title mb-3">✨ Age Calculator</h3>
+            <p class="text-muted">Enter your date of birth to find out exactly how old you are.</p>
+            
+            <div class="mb-3">
+              <input type="date" id="dob" class="form-control" max="">
+            </div>
+            
+            <button class="btn btn-primary w-100" onclick="calculateAge()">Calculate Age</button>
+            
+            <div id="result" class="result mt-3 text-primary"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JavaScript -->
+  <script>
+    // Set today's date as max for input
+    document.getElementById('dob').max = new Date().toISOString().split('T')[0];
+
+    function calculateAge() {
+      const dob = document.getElementById('dob').value;
+      const resultDiv = document.getElementById('result');
+
+      if (!dob) {
+        resultDiv.innerHTML = "⚠️ Please select your date of birth.";
+        return;
+      }
+
+      const birthDate = new Date(dob);
+      const today = new Date();
+
+      let years = today.getFullYear() - birthDate.getFullYear();
+      let months = today.getMonth() - birthDate.getMonth();
+      let days = today.getDate() - birthDate.getDate();
+
+      // Adjust if birth month/day hasn't occurred yet this year
+      if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      resultDiv.innerHTML = 
+        `🎉 You are <strong>${years}</strong> years, <strong>${months}</strong> months, and <strong>${days}</strong> days old.`;
+    }
+  </script>
+</body>
+</html>
